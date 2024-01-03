@@ -1,0 +1,190 @@
+/* This file parses Pascal code into a stream of tokens.
+ * Tokens are described as an enum, which is defined in
+ * this file.
+ *
+ *
+ */
+
+pub enum Token {
+    /* OPERATORS */
+    // Mathematical operators:
+    Addition,        // ` + `
+    Subtraction,     // ` - `
+    Multiplication,  // ` * `
+    Exponentiation,  // ` ** `
+    Division,        // ` / `
+    IntegerDivision, // ` div ` <--------------|- Accept only integer arguments.
+    Modulus,         // ` mod ` or ` % `  <----|
+    // Unary sign operators:
+    SignIdentity,  // ` + `
+    SignInversion, // ` - `
+    // Relational operators:
+    Equal,        // ` = `
+    NotEqual,     // ` <> `
+    LessThan,     // ` < `
+    GreaterThan,  // ` > `
+    LessEqual,    // ` <= `
+    GreaterEqual, // ` >= `
+    In,           // ` in `
+    // Specific set operators:
+    SymmetricDifference, // ` >< `
+    Include,             // ` include `
+    Exclude,             // ` exclude `
+    // Boolean and Bitwise operators:
+    Not, // ` not `
+    And, // ` and `
+    Or,  // ` or `
+    Xor, // ` xor `
+    Shl, // ` shl ` or ` << `
+    Shr, // ` shr ` or ` >> `
+    // Class operators:
+    Is, // ` is `
+    As, // ` as `
+    /* SYMBOLS */
+    Quote,        // '
+    OpenBrace,    // {
+    CloseBrace,   // }
+    OpenParen,    // (
+    CloseParen,   // )
+    OpenBracket,  // [
+    CloseBracket, // ]
+    Dot,          // .
+    Comma,        // ,
+    Colon,        // :
+    Caret,        // ^
+    AtSign,       // @
+    DollarSign,   // $
+    HashSign,     // #
+    Ampersand,    // &
+    Assignment,   // ` := `
+    PlusEquals,   // ` += `
+    MinusEquals,  // ` -= `
+    TimesEquals,  // ` *= `
+    DivEquals,    // ` /= `
+    /* KEYWORDS */
+    Absolute,
+    Array,
+    Asm,
+    Begin,
+    Case,
+    Class,
+    Const,
+    Constructor,
+    Destructor,
+    Dispinterface,
+    Do,
+    Downto,
+    Else,
+    End,
+    Except,
+    Exports,
+    File,
+    Finalization,
+    Finally,
+    For,
+    Function,
+    Goto,
+    If,
+    Implementation,
+    Inherited,
+    Initialization,
+    Inline,
+    Interface,
+    Label,
+    Library,
+    Nil,
+    Object,
+    Of,
+    On,
+    Operator,
+    Out,
+    Packed,
+    Procedure,
+    Program,
+    Property,
+    Raise,
+    Record,
+    Reintroduce,
+    Repeat,
+    ResourceString,
+    PascalSelf,
+    Set,
+    PascalString,
+    Then,
+    Threadvar,
+    To,
+    Try,
+    Type,
+    Unit,
+    Until,
+    Uses,
+    Var,
+    While,
+    With,
+    // Modifiers:
+    Modifier(Modifier),
+}
+
+pub enum Modifier {
+    Absolute,
+    Abstract,
+    Alias,
+    Assembler,
+    Bitpacked,
+    Break,
+    Cdecl,
+    Continue,
+    Cppdecl,
+    Cvar,
+    Default,
+    Deprecated,
+    Dynamic,
+    Enumerator,
+    Experimental,
+    Export,
+    External,
+    Far,
+    Far16,
+    Forward,
+    Generic,
+    Helper,
+    Implements,
+    Index,
+    Interrupt,
+    Iocheck,
+    Local,
+    Message,
+    Name,
+    Near,
+    Nodefault,
+    Noreturn,
+    Nostackframe,
+    Oldfpccall,
+    Otherwise,
+    Overload,
+    Override,
+    Pascal,
+    Platform,
+    Private,
+    Protected,
+    Public,
+    Published,
+    Read,
+    Register,
+    Reintroduce,
+    Result,
+    Safecall,
+    Saveregisters,
+    Softfloat,
+    Specialize,
+    Static,
+    Stdcall,
+    Stored,
+    Strict,
+    Unaligned,
+    Unimplemented,
+    Varargs,
+    Virtual,
+    Winapi,
+    Write,
+}
