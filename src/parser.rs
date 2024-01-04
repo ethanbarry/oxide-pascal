@@ -2,8 +2,8 @@
  * Tokens are described as an enum, which is defined in
  * this file.
  */
-#[derive(Debug)]
-pub enum Token {
+#[derive(Debug, Clone, Copy)]
+pub enum TokenType {
     /* OPERATORS */
     // Assignment operator:
     Assignment, //  :=
@@ -104,6 +104,21 @@ pub enum Token {
     With,
 }
 
+pub struct Token {
+    token_type: TokenType,
+    value: Option<String>,
+}
+
+impl Token {
+    pub fn get_type(&self) -> TokenType {
+        self.token_type
+    }
+
+    pub fn get_value(&self) -> Option<String> {
+        self.value
+    }
+}
+
 /// Accepts a character, and the one succeeding it,
 /// and returns a tuple of (Token, i8) where the
 /// Token contains the value of the symbol, and the
@@ -112,27 +127,66 @@ pub enum Token {
 /// For example, |'+', '='| returns a tuple of
 /// (Token::PlusEquals, 2) because the loop must
 /// consume the next char twice.
-pub fn char_parse_operator(c: char, next: char) -> (Token, i8) {
-    match c {
-        '+' => match next {
-            // If a `=` follows it was PlusEquals.
-            '=' => (Token::PlusEquals, 2),
-            _ => (Token::Addition, 1),
+// pub fn char_parse_operator(c: char, next: char) -> (Token, i8) {
+//     match c {
+//         '+' => match next {
+//             // If a `=` follows it was PlusEquals.
+//             '=' => (Token::PlusEquals, 2),
+//             _ => (Token::Addition, 1),
+//         },
+//         '-' => match next {
+//             // Same idea.
+//             '=' => (Token::MinusEquals, 2),
+//             _ => (Token::Subtraction, 1),
+//         },
+//         '*' => match next {
+//             '=' => (Token::TimesEquals, 2),
+//             '*' => (Token::Exponentiation, 2),
+//             _ => (Token::Multiplication, 1),
+//         },
+//         '/' => match next {
+//             '=' => (Token::DivEquals, 2),
+//             _ => (Token::Division, 1),
+//         },
+//         _ => todo!(),
+//     }
+// }
+
+// Later return custom error types. To be used in an iterator map() fn...
+pub fn parse(s: &str) -> Result<Token, std::io::Error> {
+    // First construct the match statements for all possiblities:
+    match s {
+        ":=" => Token {
+            token_type: TokenType::Assignment,
+            value: None,
         },
-        '-' => match next {
-            // Same idea.
-            '=' => (Token::MinusEquals, 2),
-            _ => (Token::Subtraction, 1),
-        },
-        '*' => match next {
-            '=' => (Token::TimesEquals, 2),
-            '*' => (Token::Exponentiation, 2),
-            _ => (Token::Multiplication, 1),
-        },
-        '/' => match next {
-            '=' => (Token::DivEquals, 2),
-            _ => (Token::Division, 1),
-        },
-        _ => todo!(),
-    }
+        _ => todo!(), // Return errors?
+    };
+
+    todo!()
 }
+
+// Applies the regexes to a string, which is the whole file at once, and returns
+// a Vec of the split substrings.
+pub fn regexes(s: &str) -> Vec<String> {
+    use regex::Regex;
+
+    // Captures the syntax of a normal language okay... Tweak for Pascal!
+    let lexer_regex = Regex::new(r#"(?x)(?::=|\+=|\-=|\*=|/=|<=|>=|==|!=|&&|\|\||<<|>>)|(?:\+|-|\*|/|=|<|>|!|&|\||\^|%|~)|(?:\(|\)|\{|\}|\[|\]|\.|,|;|:)|\d+|[a-zA-Z]+"#).unwrap();
+
+    let code_string = "foo: x = 5 + 3 ** (y - 2);";
+    for cap in lexer_regex.captures_iter(code_string) {
+        println!("{}", cap.get(0).unwrap().as_str());
+    }
+
+    let result: Vec<String> = lexer_regex
+        .captures_iter(code_string)
+        .map(|cap| cap.get(0).unwrap().as_str().to_string())
+        .collect();
+
+    dbg!(result);
+
+    todo!()
+}
+
+// TODO: Write tests for the regexes/parser functions!

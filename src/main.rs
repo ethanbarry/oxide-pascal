@@ -1,3 +1,4 @@
+use std::fs::File;
 use std::path::PathBuf;
 
 use clap::{Parser, Subcommand};
@@ -9,14 +10,18 @@ struct Cli {
     source: PathBuf,
 }
 
-fn main() {
+fn main() -> std::io::Result<()> {
     let cli = Cli::parse();
 
-    // Path of the source code.
-    let source_path = cli.source;
+    // Path of the source code to open the file.
+    let file = File::open(cli.source)?;
 
-    let (token, advance) = crate::parser::char_parse_operator('/', '=');
-    dbg!(token, advance);
+    // Now run it through cradle!
+
+    //testing
+    let _ = parser::regexes("Hi there!");
+
+    Ok(()) // Happy path!
 }
 
 pub mod ops;
