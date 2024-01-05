@@ -511,7 +511,7 @@ fn parse(s: &str) -> Token {
         // Catch any leftovers, which must be identifiers...
         s if s.chars().all(char::is_alphanumeric) => Token {
             token_type: TokenType::Identifier,
-            value: Some(s.to_owned()),
+            value: Some(s.to_owned()), // TODO Return the correct case.
         },
         "//" => Token {
             token_type: TokenType::Error,
