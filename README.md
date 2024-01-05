@@ -1,4 +1,9 @@
 # Oxide-Pascal
 
-An implementation in Rust and (x86, LLVM) of Dr. Jack Crenshaw's 1988 compiler
-written in Pascal.
+An implementation in Rust of a very basic Pascal compiler,
+in honor of Dr. Wirth's legacy.
+
+## Current State
+[x] Parses basic Pascal syntax into tokens and uses Clap for the CLI.
+[ ] Understands Pascal's syntax.
+[ ] Generates assembly/LLVM code.
