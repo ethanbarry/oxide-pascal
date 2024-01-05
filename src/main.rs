@@ -19,9 +19,6 @@ fn main() -> std::io::Result<()> {
     // Path of the source code to open the file.
     let file_string = fs::read_to_string(cli.source).unwrap();
 
-    // Now run it through cradle!
-
-    //testing
     let parsed_file = parser::regexes(&file_string);
 
     dbg!(parsed_file);
